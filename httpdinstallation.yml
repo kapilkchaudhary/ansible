@@ -31,7 +31,7 @@
 
    - name: allow service http on firewalld
      firewalld:
-        service: http
+        service: http   # port: 80/tcp
         permanent: true
         state: enabled
         immediate: true
