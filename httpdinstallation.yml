@@ -1,0 +1,40 @@
+---
+- name: create httpd server.
+  hosts: all
+  tasks:
+   - name: install httpd server
+     yum:
+        name: httpd
+        state: present
+
+   - name: ensure httpd service start and enable
+     service:
+        name: httpd
+        state: started
+        enabled: true
+
+   - name: create apache index.html
+     copy:
+        content: This is redhat test file.
+        dest: /var/www/html/index.html
+
+   - name: install firewall service
+     yum:
+        name: firewalld
+        state: present
+
+   - name: ensure firewalld service enable
+     service:
+        name: firewalld
+        state: started
+        enabled: true
+
+   - name: allow service http on firewalld
+     firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: true
+
+# This play will start firewalld service and add http service in firewall.
+# this play is only for Redhat or Centos Machines 
